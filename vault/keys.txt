@@ -1,0 +1,32 @@
+
+vault
+$ vault operator init
+Unseal Key 1: +mgwHUZ0nkd1vtBsoL9jtZwsBuicAsacENiGuh9icyhe
+Unseal Key 2: s2PD0/PTw8dUwB3UiOcpAoH73A/L2M2lyAfbfF1hhc7D
+Unseal Key 3: 2QGbENoyfy0dO/lC8Wly4MBE7JVFIYnf62JtmIkKBEdH
+Unseal Key 4: KQX8AKg8ATiv0vM5OQxli83CIcAITTKDDV5NU8115DFS
+Unseal Key 5: 5XMnkmUWv0TP34pGX+8ENNGuPn+kCMNMpF34lROLH3zG
+
+Initial Root Token: s.jPFLwuOg0PR9N6qstskqEbjJ
+
+
+vault-test
+
+/ $ vault operator init
+Unseal Key 1: xMHtehZnIEOwrcfSjPpU6F/ufslEz1Vuk+lNsahMKjn0
+Unseal Key 2: +DiiWEulQFHCFRI2Ogk4Dpvjk3SzScyfoZM0AFYty25v
+Unseal Key 3: PpWeK2ZUXZlxDc4S9mOFnq3bmk20EkxLF3TE87aUFWD+
+Unseal Key 4: kgHiZd8durbDlnc1ug25XtZroh6zgUNfg8clHth7bpXG
+Unseal Key 5: BgvAddvCIWco8ECwP9ZlEklXM8mTmAJjx7XpG69/UqGP
+
+Initial Root Token: s.fIZgieqma4nmNGjo6QYFPW65
+
+
+install a fresh copy of vault on a new machine (I used HA raft storage).
+run vault operator init (with the same number of key-shares/key-threshold as the snapshot).
+run vault operator unseal, to fully unseal vault using newly generated keys.
+run vault login <root-token>, using newly generated token.
+run vault operator raft snapshot restore --force mysnapshot.tar.gz
+run vault operator unseal, to fully unseal vault using the snapshot’s keys.
+run vault login, using any previous method that worked on the old vault.
+This worked fine. The key for me was to ensure I did the vault init with a matching key structure.
